@@ -28,11 +28,14 @@ export class EmployeesController {
   @SkipThrottle({ default: false })
   @Get()
   findAll(@Ip() ip: string, @Query('role') role?: Role) {
-    this.logger.log(`Request for ALL Employees \t ${ip}`);
+    this.logger.log(
+      `Request for ALL Employees \t ${ip}`,
+      EmployeesController.name,
+    );
     return this.employeesService.findAll(role);
   }
 
-  @Throttle({ second: { ttl: 1000, limit: 1 } })
+  @Throttle({ second: { ttl: 2000, limit: 1 } })
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.employeesService.findOne(+id);
